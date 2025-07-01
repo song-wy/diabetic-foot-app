@@ -1,0 +1,174 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "主页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/register/index",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/patient/index",
+			"style": {
+				"navigationBarTitleText": "患者首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/patient/data",
+			"style": {
+				"navigationBarTitleText": "健康数据",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/patient/consult",
+			"style": {
+				"navigationBarTitleText": "在线咨询",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/patient/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/doctor/index",
+			"style": {
+				"navigationBarTitleText": "医生首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/doctor/patients",
+			"style": {
+				"navigationBarTitleText": "患者管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/doctor/schedule",
+			"style": {
+				"navigationBarTitleText": "排班管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/doctor/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/nurse/index",
+			"style": {
+				"navigationBarTitleText": "护士首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/nurse/follow",
+			"style": {
+				"navigationBarTitleText": "随访管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/nurse/patients",
+			"style": {
+				"navigationBarTitleText": "患者管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/nurse/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/index",
+			"style": {
+				"navigationBarTitleText": "管理员首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/users",
+			"style": {
+				"navigationBarTitleText": "用户管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/data",
+			"style": {
+				"navigationBarTitleText": "数据统计",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#4AB8B8",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/patient/index",
+				"text": "首页",
+				"iconPath": "/src/static/tabbar/home (8).png",
+				"selectedIconPath": "/src/static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/patient/data",
+				"text": "数据",
+				"iconPath": "/src/static/tabbar/data.png",
+				"selectedIconPath": "/src/static/tabbar/data-active.png"
+			},
+			{
+				"pagePath": "pages/patient/consult",
+				"text": "咨询",
+				"iconPath": "/src/static/tabbar/message.png",
+				"selectedIconPath": "/src/static/tabbar/message-active.png"
+			},
+			{
+				"pagePath": "pages/patient/profile",
+				"text": "我的",
+				"iconPath": "/src/static/tabbar/yonghu.png",
+				"selectedIconPath": "/src/static/tabbar/yonghu-active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}

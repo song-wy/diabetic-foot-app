@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面设计</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            background-color: #f5f7fa;
+            flex-direction: row;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 设计区域 */
+        .prototype-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 说明区域 */
+        .description-area {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        /* 手机模型 */
+        .phone-frame {
+            width: 375px;
+            height: 667px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 页面内容 */
+        .login-page {
+            height: 100%;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            color: white;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 标题区域 */
+        .title-area {
+            margin-top: 60px;
+            color: white;
+        }
+        
+        .title-area h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .title-area p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 表单区域 */
+        .form-area {
+            margin-top: 60px;
+            flex: 1;
+        }
+        
+        .input-group {
+            margin-bottom: 24px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* 附加选项 */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: white;
+            font-size: 14px;
+            text-decoration: none;
+            opacity: 0.9;
+        }
+        
+        .forgot-password:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        /* 按钮 */
+        .login-button {
+            width: 100%;
+            background-color: white;
+            color: #6e8efb;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .login-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 注册选项 */
+        .signup-option {
+            margin-top: 24px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .signup-option a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+        
+        .signup-option a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 说明区域样式 */
+        .description-area h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .description-section {
+            margin-bottom: 30px;
+        }
+        
+        .description-section h3 {
+            color: #6e8efb;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .description-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .description-section ul {
+            padding-left: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .description-section li {
+            margin-bottom: 5px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .prototype-area, .description-area {
+                width: 100%;
+            }
+        }
+        
+        /* 交互反馈 */
+        .input-group input:focus {
+            animation: pulse 1s;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        
+        /* 点击反馈 */
+        .click-feedback {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            pointer-events: none;
+        }
+        
+        .click-animation {
+            animation: clickEffect 0.8s ease-out;
+        }
+        
+        @keyframes clickEffect {
+            0% { transform: scale(0); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 设计原型区域 -->
+    <div class="prototype-area">
+        <div class="phone-frame">
+            <div class="login-page">
+                <div class="back-button" onclick="showClickFeedback(event)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="title-area">
+                    <h1>欢迎回来</h1>
+                    <p>请登录您的账户继续操作</p>
+                </div>
+                <div class="form-area">
+                    <div class="input-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" placeholder="请输入用户名或手机号" onclick="showClickFeedback(event)">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" placeholder="请输入密码" onclick="showClickFeedback(event)">
+                    </div>
+                    <div class="options">
+                        <label class="remember-me" onclick="showClickFeedback(event)">
+                            <input type="checkbox"> 记住我
+                        </label>
+                        <a href="#" class="forgot-password" onclick="showClickFeedback(event)">忘记密码？</a>
+                    </div>
+                    <button class="login-button" onclick="showClickFeedback(event)">登录</button>
+                    <div class="signup-option">
+                        还没有账户？<a href="#" onclick="showClickFeedback(event)">立即注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 设计说明区域 -->
+    <div class="description-area">
+        <h2>登录页面设计说明</h2>
+        
+        <div class="description-section">
+            <h3>视觉设计</h3>
+            <p>采用了渐变背景色（蓝紫色渐变），这种配色方案既现代又令人愉悦，为用户创造良好的第一印象。</p>
+            <ul>
+                <li>渐变色彩：采用从#6e8efb到#a777e3的渐变，创造出深度和层次感</li>
+                <li>圆角设计：使用较大的圆角（12px）增加友好感和现代感</li>
+                <li>阴影效果：适当的阴影提供深度感，增强视觉层次</li>
+                <li>简约字体：使用无衬线字体提高可读性和现代感</li>
+            </ul>
+        </div>
+        
+        <div class="description-section">
+            <h3>布局结构</h3>
+            <p>整体采用垂直方向的布局，自上而下引导用户视线流动：</p>
+            <ul>
+                <li>顶部返回按钮：方便用户随时退出登录流程</li>
+                <li>欢迎区域：大标题文字传达友好感，副标题提供功能说明</li>
+                <li>表单区域：明确的标签和宽敞的输入框提升可读性</li>
+                <li>功能选项：记住我和忘记密码功能增强用户体验</li>
+                <li>突出的登录按钮：使用对比色提高识别度和点击意愿</li>
+                <li>底部注册选项：为新用户提供引导</li>
+            </ul>
+        </div>
+        
+        <div class="description-section">
+            <h3>交互设计</h3>
+            <p>融入多种交互反馈，提升用户体验：</p>
+            <ul>
+                <li>点击效果：所有可点击元素都有波纹效果反馈</li>
+                <li>悬停状态：按钮和链接有明确的悬停视觉变化</li>
+                <li>输入框焦点：获得焦点时有轻微动画和边框高亮</li>
+                <li>按钮按压效果：模拟真实按压手感</li>
+            </ul>
+        </div>
+        
+        <div class="description-section">
+            <h3>易用性考虑</h3>
+            <ul>
+                <li>清晰的表单标签：每个输入框都有明确的标签和提示信息</li>
+                <li>足够大的点击区域：所有可交互元素都有合适的大小</li>
+                <li>视觉层次：主要行动（登录按钮）通过大小和颜色区分</li>
+                <li>简洁的信息量：只请求必要的账号密码信息</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 添加点击反馈效果
+        function showClickFeedback(event) {
+            // 创建点击反馈元素
+            const feedback = document.createElement('div');
+            feedback.classList.add('click-feedback');
+            
+            // 设置反馈元素位置
+            feedback.style.width = '100px';
+            feedback.style.height = '100px';
+            feedback.style.left = (event.clientX - 50) + 'px';
+            feedback.style.top = (event.clientY - 50) + 'px';
+            
+            // 添加到文档并开始动画
+            document.body.appendChild(feedback);
+            setTimeout(() => {
+                feedback.classList.add('click-animation');
+            }, 10);
+            
+            // 动画结束后移除
+            setTimeout(() => {
+                document.body.removeChild(feedback);
+            }, 800);
+        }
+        
+        // 输入框获取焦点时的动画
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('active');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html> 
