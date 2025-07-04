@@ -22,7 +22,7 @@
         </view>
         <view class="info-section">
           <view class="name-row">
-            <text class="name">{{userInfo.name}}</text>
+            <text class="name">{{userInfo.username}}</text>
             <view class="tag" v-if="userInfo.vip">VIP会员</view>
           </view>
           <text class="id">ID: {{userInfo.patientId}}</text>
@@ -172,17 +172,45 @@
 export default {
   data() {
     return {
+      // 新增：用于存储后端返回的用户信息
       userInfo: {
-        name: '张三',
-        patientId: 'P202403150001',
-        avatar: '',
-        vip: true
+        username: '', // 用户名
+        patientId: '', // 患者ID
+        avatar: '/static/yonghu.png', // 头像
+        vip: false // 会员标记（可选）
       },
       healthData: {
         bloodSugar: '5.6',
         weight: '65',
         bloodPressure: '120/80'
       }
+    }
+  },
+  onShow() {
+    // 页面显示时自动获取用户信息
+    const userId = uni.getStorageSync('userId');
+    const token = uni.getStorageSync('token');
+    if (userId && token) {
+      uni.request({
+        url: `http://localhost:3000/api/patient/${userId}/profile`,
+        method: 'GET',
+        header: {
+          Authorization: 'Bearer ' + token
+        },
+        success: (res) => {
+          if (res.statusCode === 200 && res.data && res.data.length > 0) {
+            this.userInfo = {
+              username: res.data[0].name || res.data[0].username || '',
+              patientId: res.data[0].patient_id || res.data[0].id || '',
+              avatar: '/static/yonghu.png',
+              vip: false // 可根据后端返回调整
+            };
+          }
+        },
+        fail: (err) => {
+          uni.showToast({ title: '获取用户信息失败', icon: 'none' });
+        }
+      });
     }
   },
   methods: {

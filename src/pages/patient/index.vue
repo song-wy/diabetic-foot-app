@@ -3,15 +3,15 @@
     <!-- 顶部栏 -->
     <view class="header">
       <view class="user-info">
-        <image class="avatar" src="/src/static/yonghu.png"></image>
+        <image class="avatar" :src="userInfo.avatar"></image>
         <view class="user-details">
-          <text class="username">张先生</text>
-          <text class="user-id">患者ID: P12345</text>
+          <text class="username">{{ userInfo.username || '未登录' }}</text>
+          <text class="user-id">患者ID: {{ userInfo.patientId || '-' }}</text>
         </view>
       </view>
-      <view class="notification">
+      <view class="notification" @click="navigateTo('/pages/patient/message')">
         <image class="notification-icon" src="/src/static/image/comment-dots (2).png"></image>
-        <text class="badge">5</text>
+        <text v-if="unreadCount > 0" class="badge">{{ unreadCount }}</text>
       </view>
     </view>
 
@@ -163,8 +163,11 @@
 export default {
   data() {
     return {
-      username: '张先生',
-      userId: 'P12345',
+      userInfo: {
+        username: '',
+        patientId: '',
+        avatar: '/src/static/yonghu.png'
+      },
       bloodSugar: {
         value: 6.8,
         unit: 'mmol/L',
@@ -214,10 +217,40 @@ export default {
           time: '昨天',
           image: '/static/blood-test.svg'
         }
-      ]
+      ],
+      unreadCount: 0
     }
   },
+  onShow() {
+    const userId = uni.getStorageSync('userId');
+    const token = uni.getStorageSync('token');
+    if (userId && token) {
+      uni.request({
+        url: `http://localhost:3000/api/patient/${userId}/profile`,
+        method: 'GET',
+        header: {
+          Authorization: 'Bearer ' + token
+        },
+        success: (res) => {
+          if (res.statusCode === 200 && res.data && res.data.length > 0) {
+            this.userInfo = {
+              username: res.data[0].name || res.data[0].username || '',
+              patientId: res.data[0].patient_id || res.data[0].id || '',
+              avatar: '/src/static/yonghu.png'
+            };
+          }
+        },
+        fail: (err) => {
+          uni.showToast({ title: '获取用户信息失败', icon: 'none' });
+        }
+      });
+    }
+    this.fetchUnreadCount();
+  },
   methods: {
+    fetchUnreadCount() {
+      this.unreadCount = 2;
+    },
     navigateTo(url) {
       uni.navigateTo({
         url: url

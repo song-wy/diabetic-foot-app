@@ -50,6 +50,13 @@
 			}
 		},
 		{
+			"path": "pages/patient/message",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/doctor/index",
 			"style": {
 				"navigationBarTitleText": "医生首页",

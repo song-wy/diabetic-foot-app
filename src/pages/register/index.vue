@@ -52,6 +52,32 @@
           </view>
         </view>
         
+        <!-- 手机号输入 -->
+        <view class="input-group">
+          <text class="input-label">手机号</text>
+          <view class="input-wrapper">
+            <input 
+              class="input-field" 
+              type="text" 
+              v-model="formData.phone" 
+              placeholder="请输入手机号"
+              placeholder-class="input-placeholder"
+            />
+          </view>
+        </view>
+        
+        <!-- 角色选择 -->
+        <view class="input-group">
+          <text class="input-label">角色</text>
+          <view class="input-wrapper">
+            <picker :range="roleOptions" v-model="formData.roleIndex" @change="handleRoleChange">
+              <view class="picker-view">
+                <text>{{ roleOptions[formData.roleIndex] || '请选择角色' }}</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+        
         <!-- 用户协议 -->
         <view class="agreement-row">
           <checkbox-group @change="handleAgreementChange">
@@ -88,8 +114,20 @@ const formData = ref({
   username: '',
   password: '',
   confirmPassword: '',
+  phone: '',
+  roleIndex: -1,
+  role: '',
   agreement: false
 });
+
+// 角色选项
+const roleOptions = ['patient', 'doctor', 'nurse', 'admin'];
+
+// 处理角色选择
+const handleRoleChange = (e) => {
+  formData.value.roleIndex = e.detail.value;
+  formData.value.role = roleOptions[e.detail.value];
+};
 
 // 处理用户协议变更
 const handleAgreementChange = (e) => {
@@ -125,6 +163,22 @@ const handleRegister = () => {
     return;
   }
   
+  if (!formData.value.phone) {
+    uni.showToast({
+      title: '请输入手机号',
+      icon: 'none'
+    });
+    return;
+  }
+  
+  if (formData.value.roleIndex === -1) {
+    uni.showToast({
+      title: '请选择角色',
+      icon: 'none'
+    });
+    return;
+  }
+  
   if (!formData.value.agreement) {
     uni.showToast({
       title: '请阅读并同意用户协议和隐私政策',
@@ -134,26 +188,45 @@ const handleRegister = () => {
   }
   
   // 这里添加注册逻辑，例如调用API
-  console.log('注册信息：', formData.value);
-  uni.showLoading({
-    title: '注册中...'
-  });
-  
-  // 模拟注册请求
-  setTimeout(() => {
-    uni.hideLoading();
-    uni.showToast({
-      title: '注册成功',
-      icon: 'success',
-      duration: 1500,
-      success: () => {
-        // 注册成功后跳转到登录页
-        setTimeout(() => {
-          uni.navigateBack();
-        }, 1500);
+  // 调用后端注册接口
+  uni.request({
+    url: 'http://localhost:3000/api/auth/register', // 根据你的后端端口调整
+    method: 'POST',
+    data: {
+      username: formData.value.username,
+      password: formData.value.password,
+      phone: formData.value.phone,
+      role: formData.value.role
+    },
+    success: (res) => {
+      uni.hideLoading();
+      if (res.statusCode === 201) {
+        uni.showToast({
+          title: '注册成功',
+          icon: 'success',
+          duration: 1500,
+          success: () => {
+            setTimeout(() => {
+              // 注册成功后跳转到登录页
+              uni.reLaunch({ url: '/pages/login/index' });
+            }, 1500);
+          }
+        });
+      } else {
+        uni.showToast({
+          title: res.data.error || '注册失败',
+          icon: 'none'
+        });
       }
-    });
-  }, 1500);
+    },
+    fail: (err) => {
+      uni.hideLoading();
+      uni.showToast({
+        title: '网络错误',
+        icon: 'none'
+      });
+    }
+  });
 };
 
 // 返回登录页

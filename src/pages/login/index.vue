@@ -137,22 +137,25 @@ const handleLogin = () => {
     return;
   }
   
-  // 这里添加登录逻辑，例如调用API
-  console.log('登录信息：', formData.value);
+  // 调用后端登录接口
   uni.showLoading({
     title: '登录中...'
   });
-  
-  // 模拟登录请求
-  setTimeout(() => {
+  uni.request({
+    url: 'http://localhost:3000/api/auth/login', // 根据你的后端端口调整
+    method: 'POST',
+    data: {
+      username: formData.value.username,
+      password: formData.value.password
+    },
+    success: (res) => {
     uni.hideLoading();
-    
-    // 保存登录状态和角色信息
-    uni.setStorageSync('token', 'mock-token-123');
-    uni.setStorageSync('userRole', formData.value.role);
-    
+      if (res.statusCode === 200 && res.data.token) {
+        // 登录成功，保存token和角色到本地存储
+        uni.setStorageSync('token', res.data.token);
+        uni.setStorageSync('userRole', res.data.role);
     // 根据角色跳转到不同页面
-    switch (formData.value.role) {
+        switch (res.data.role) {
       case 'patient':
         uni.reLaunch({ url: '/pages/patient/index' });
         break;
@@ -168,7 +171,22 @@ const handleLogin = () => {
       default:
         uni.reLaunch({ url: '/pages/index/index' });
     }
-  }, 1500);
+      } else {
+        // 登录失败，弹出提示
+        uni.showToast({
+          title: res.data.error || '登录失败',
+          icon: 'none'
+        });
+      }
+    },
+    fail: (err) => {
+      uni.hideLoading();
+      uni.showToast({
+        title: '网络错误',
+        icon: 'none'
+      });
+    }
+  });
 };
 
 // 忘记密码

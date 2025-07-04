@@ -5,7 +5,7 @@
       <view class="back-btn" @click="goBack">
         <text class="iconfont icon-back"></text>
       </view>
-      <text class="title">个人数据</text>
+      <text class="title">个人数据（{{ userInfo.username || '未登录' }}）</text>
       <view class="right-btn" @click="showDatePicker">
         <text class="date">{{currentDate}}</text>
         <text class="iconfont icon-calendar"></text>
@@ -282,6 +282,12 @@
 export default {
   data() {
     return {
+      // 新增：用于存储后端返回的用户信息
+      userInfo: {
+        username: '', // 用户名
+        patientId: '', // 患者ID
+        avatar: '/static/yonghu.png' // 头像（可选）
+      },
       currentDate: '',
       selectedDate: '',
       startDate: '2020-01-01',
@@ -324,6 +330,32 @@ export default {
   onLoad() {
     this.getCurrentDate()
     // 这里可以添加获取历史数据的方法
+  },
+  onShow() {
+    // 页面显示时自动获取用户信息
+    const userId = uni.getStorageSync('userId');
+    const token = uni.getStorageSync('token');
+    if (userId && token) {
+      uni.request({
+        url: `http://localhost:3000/api/patient/${userId}/profile`,
+        method: 'GET',
+        header: {
+          Authorization: 'Bearer ' + token
+        },
+        success: (res) => {
+          if (res.statusCode === 200 && res.data && res.data.length > 0) {
+            this.userInfo = {
+              username: res.data[0].name || res.data[0].username || '',
+              patientId: res.data[0].patient_id || res.data[0].id || '',
+              avatar: '/static/yonghu.png'
+            };
+          }
+        },
+        fail: (err) => {
+          uni.showToast({ title: '获取用户信息失败', icon: 'none' });
+        }
+      });
+    }
   },
   methods: {
     getCurrentDate() {
